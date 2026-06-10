@@ -29,7 +29,10 @@ jobs:
       - name: Build APK
         run: |
           buildozer -v android debug 2>&1 | tee build.log
-
+      - name: Search APK files
+        run: |
+          echo "===== APK FILES ====="
+          find . -name "*.apk"
       - name: Upload APK
         if: success()
         uses: actions/upload-artifact@v4
