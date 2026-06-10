@@ -3,6 +3,10 @@ name: Build Android APK
 on:
   workflow_dispatch: # تشغيل يدوي بضغطة زر
 
+# تفعيل البيئة الحديثة لـ Node 24 وتخطي التحذيرات
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,7 +20,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      # 1. تثبيت كافة الاعتماديات والبرامج المساعدة للأندرويد مباشرة على السيرفر
+      # 1. تثبيت كافة الاعتماديات والبرامج المساعدة للأندرويد
       - name: Install Dependencies
         run: |
           sudo apt-get update
@@ -24,13 +28,14 @@ jobs:
           pip install --upgrade pip
           pip install buildozer cython==0.29.33 kivy
 
-      # 2. تنفيذ أمر بناء الـ APK مباشرة بواسطة أداة buildozer المثبتة
+      # 2. بناء الـ APK مع حفظ تفاصيل الأخطاء في ملف خارجي إذا فشل
       - name: Build with Buildozer
         run: |
-          yes | buildozer -v android debug
+          yes | buildozer -v android debug || (echo "=== BUILDOZER FAILED ===" && cat .buildozer/android/platform/build-*.log || true && exit 1)
 
-      # 3. رفع ملف الـ APK الناتج بالنسخة الحديثة v4
+      # 3. رفع ملف الـ APK الناتج في حال النجاح
       - name: Upload APK Artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: DiagDiesel-APK
