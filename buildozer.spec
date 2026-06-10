@@ -5,6 +5,8 @@ title = DiagDiesel Maitre
 
 # (str) Package name
 package.name = diagdieselmaitre
+p4a.bootstrap = sdl2
+version = 0.1
 
 # (str) Package domain (needed for android packaging)
 package.domain = org.benahmed
