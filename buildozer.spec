@@ -19,7 +19,7 @@ source.include_exts = py,png,jpg,kv,ttf
 
 # (list) Application requirements
 # تم ضبط الإصدارات هنا بدقة لتتوافق مع تصميم واجهتك الحديثة والمستقرة
-requirements = python3, kivy==2.3.0, kivymd==2.0.0, pillow
+requirements = python3==3.11.1, kivy==2.3.0, kivymd==1.2.0, pillow
 
 # (str) Supported orientations (landscape, portrait or all)
 orientation = portrait
